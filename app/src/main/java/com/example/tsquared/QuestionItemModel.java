@@ -1,22 +1,57 @@
 package com.example.tsquared;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.Log;
+import android.view.View;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.gms.games.quest.Quest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Objects;
+
+import static java.security.AccessController.getContext;
+
 public class QuestionItemModel {
-    private String name;
-    private String topic;
-    private String question;
-    private String dateSubmitted;
-    private String responseNum;
-    private int profileImage;
 
-    public QuestionItemModel(String name, String topic, String question,
-                             String dateSubmitted, String responseNum, int profileImage){
-        this.name     = name;
-        this.topic    = topic;
-        this.question = question;
-        this.dateSubmitted = dateSubmitted;
-        this.responseNum   = responseNum;
-        this.profileImage  = profileImage;
+    public  int      isAnonymous;
+    public  String   postedByEmail;
+    public  String   name;
+    public  String   topic;
+    public  String   question;
+    public  String   dateSubmitted;
+    public  String   responseNum;
+    public  Drawable profileImage;
 
+    QuestionItemModel() {
+
+    }
+
+    static QuestionItemModel fromJson(JSONObject jsonObject) throws JSONException {
+        QuestionItemModel question = new QuestionItemModel();
+        question.isAnonymous   = jsonObject.getInt("isAnonymous");
+        question.postedByEmail = jsonObject.getString("PostedByEmail");
+        Log.d("PostedByEmail in QIM", question.postedByEmail);
+        question.name          = jsonObject.getString("PostedBy");
+        question.topic         = jsonObject.getString("QuestionDetails");
+        question.question      = jsonObject.getString("Content");
+        question.dateSubmitted = jsonObject.getString("DatePosted");
+        question.responseNum   = jsonObject.getString("ResponseNumber");
+        if(question.responseNum.equals("1"))       question.responseNum = question.responseNum + " Answer";
+        else if(!question.responseNum.equals("1")) question.responseNum = question.responseNum + " Answers";
+        if(question.isAnonymous == 1){
+            question.name = "Anonymous";
+        }
+        question.name  = capitalizeFirstCharOfEveryWordInString(question.name);
+        question.topic = capitalizeFirstCharOfEveryWordInString(question.topic);
+
+        return question;
     }
 
     public String getName() {
@@ -59,11 +94,48 @@ public class QuestionItemModel {
         this.dateSubmitted = dateSubmitted;
     }
 
-    public int getProfileImage() {
+    public Drawable getProfileImage() {
         return profileImage;
     }
 
-    public void setProfileImage(int profileImage) {
+    public void setProfileImage(Drawable profileImage) {
         this.profileImage = profileImage;
     }
+    public String getPostedByEmail() {
+        return postedByEmail;
+    }
+
+    public void setPostedByEmail(String postedByEmail) {
+        this.postedByEmail = postedByEmail;
+    }
+
+    private static String capitalizeFirstCharOfEveryWordInString(String string){
+        char[] ch = string.toCharArray();
+        for(int i = 0; i < string.length(); i++) {
+            // Find first char of a word
+            // Make sure the character does not equal a space
+            if (i == 0 && ch[i] != ' ' || ch[i] != ' ' && ch[i - 1] == ' ') {
+                // If such character is lower-case
+                if (ch[i] >= 'a' && ch[i] <= 'z') {
+                    // simply convert it into upper-case
+                    // refer to the ASCII table to understand this line of code
+                    ch[i] = (char) (ch[i] - 'a' + 'A');
+                }
+            }
+            else if (ch[i] >= 'A' && ch[i] <= 'Z'){
+                ch[i] = (char) (ch[i] + 'a' - 'A');
+            }
+        }
+        return new String(ch);
+    }
 }
+    /*public QuestionItemModel(String name, String topic, String question,
+                             String dateSubmitted, String responseNum, Drawable profileImage){
+        this.name     = name;
+        this.topic    = topic;
+        this.question = question;
+        this.dateSubmitted = dateSubmitted;
+        this.responseNum   = responseNum;
+        this.profileImage  = profileImage;
+
+    }*/

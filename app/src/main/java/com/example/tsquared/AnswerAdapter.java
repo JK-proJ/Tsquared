@@ -8,10 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.MyViewHold
     AnswerAdapter(ArrayList<AnswerModel> mArrayList, Context mcontext){
         this.mArrayList = mArrayList;
         this.mcontext   = mcontext;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -34,13 +37,15 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull AnswerAdapter.MyViewHolder holder, int position) {
+        AnswerModel answer = mArrayList.get(position);
         Glide.with(mcontext)
-                .load(mArrayList.get(position).getProfileImage())
+                .load(answer.getProfileImage())
                 .into(holder.answerProfileImage);
 
-        holder.answerProfileName.setText(mArrayList.get(position).getName());
-        holder.answerProfileDate.setText(mArrayList.get(position).getDateAnswered());
-        holder.answer.setText(mArrayList.get(position).getAnswer());
+        holder.answerProfileName.setText(answer.name);
+        holder.answerProfileDate.setText(answer.dateAnswered);
+        holder.answer.setText(answer.answer);
+        //Log.e("RepliedByEmail", answer.repliedByEmail);
     }
 
     @Override
@@ -54,7 +59,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.MyViewHold
         private final TextView  answerProfileDate;
         private final TextView  answer;
 
-        private final ConstraintLayout answerProfile;
+        private final CardView answerProfile;
 
         MyViewHolder(View view){
             super(view);
@@ -62,7 +67,6 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.MyViewHold
             answerProfileName  = view.findViewById(R.id.answerName);
             answerProfileDate  = view.findViewById(R.id.answerSubmitted);
             answer = view.findViewById(R.id.answer);
-
             answerProfile = view.findViewById(R.id.answersLayout);
         }
     }
