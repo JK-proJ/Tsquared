@@ -50,7 +50,6 @@ public class QuestionWindow extends AppCompatActivity implements View.OnClickLis
     private String topicPostString;
     private String postedByString;
     private String collegeString;
-    private String postedByEmailString;
     private boolean isAnon;
 
     private AlertDialog alertDialog;
@@ -124,7 +123,6 @@ public class QuestionWindow extends AppCompatActivity implements View.OnClickLis
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private boolean getInfo() {
-        postedByEmailString   = Objects.requireNonNull(DrawerActivity.getEmail());
         postedByString  = Objects.requireNonNull(postName.getText().toString());
         collegeString   = Objects.requireNonNull(postCollege.getText().toString());
         topicString     = Objects.requireNonNull(topic.getText().toString());
@@ -139,7 +137,6 @@ public class QuestionWindow extends AppCompatActivity implements View.OnClickLis
     private void takeDataToPost(){
 
         params = new RequestParams();
-        params.put("postedByEmail", postedByEmailString);
         params.put("postedBy", postedByString);
         params.put("content", topicPostString);
         params.put("topic", topicString);
@@ -153,7 +150,7 @@ public class QuestionWindow extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response){
                 Toast.makeText(getApplicationContext(), "Submit Success " + response, Toast.LENGTH_SHORT).show();
-                Log.e("TAG", "Posting Question by " + postedByEmailString + " - " + postedByString);
+                Log.e("TAG", "Posting Question by " + "Someone");
             }
 
             @Override

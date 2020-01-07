@@ -45,7 +45,6 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.MyViewHold
         holder.answerProfileName.setText(answer.name);
         holder.answerProfileDate.setText(answer.dateAnswered);
         holder.answer.setText(answer.answer);
-        //Log.e("RepliedByEmail", answer.repliedByEmail);
     }
 
     @Override

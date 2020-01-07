@@ -3,7 +3,6 @@ package com.example.tsquared;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
@@ -21,7 +20,6 @@ import static java.security.AccessController.getContext;
 public class QuestionItemModel {
 
     public  int      isAnonymous;
-    public  String   postedByEmail;
     public  String   name;
     public  String   topic;
     public  String   question;
@@ -36,8 +34,6 @@ public class QuestionItemModel {
     static QuestionItemModel fromJson(JSONObject jsonObject) throws JSONException {
         QuestionItemModel question = new QuestionItemModel();
         question.isAnonymous   = jsonObject.getInt("isAnonymous");
-        question.postedByEmail = jsonObject.getString("PostedByEmail");
-        Log.d("PostedByEmail in QIM", question.postedByEmail);
         question.name          = jsonObject.getString("PostedBy");
         question.topic         = jsonObject.getString("QuestionDetails");
         question.question      = jsonObject.getString("Content");
@@ -100,13 +96,6 @@ public class QuestionItemModel {
 
     public void setProfileImage(Drawable profileImage) {
         this.profileImage = profileImage;
-    }
-    public String getPostedByEmail() {
-        return postedByEmail;
-    }
-
-    public void setPostedByEmail(String postedByEmail) {
-        this.postedByEmail = postedByEmail;
     }
 
     private static String capitalizeFirstCharOfEveryWordInString(String string){

@@ -1,7 +1,6 @@
 package com.example.tsquared;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,8 +9,8 @@ public class PeopleItemModel {
     public  String name;
     public  String desc;
     public  String college;
+    public  String email;
     public  Drawable profileImage;
-    private String email;
 
     static PeopleItemModel fromJson(JSONObject jsonObject) throws JSONException {
         PeopleItemModel people = new PeopleItemModel();
@@ -19,11 +18,14 @@ public class PeopleItemModel {
         people.desc            = jsonObject.getString("Description");
         people.college         = jsonObject.getString("College");
         people.email           = jsonObject.getString("Email");
-        Log.e("PeopleItemModel Data", people.name + "| " + people.desc + "| " + people.college + "| " + people.email);
 
         people.name            = capitalizeFirstCharOfEveryWordInString(people.name);
         people.college         = capitalizeFirstCharOfEveryWordInString(people.college);
         return people;
+    }
+
+    public String getEmail(){
+        return email;
     }
 
     public Drawable getProfileImage() {
@@ -52,14 +54,6 @@ public class PeopleItemModel {
             }
         }
         return new String(ch);
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
 
@@ -94,5 +88,3 @@ public class PeopleItemModel {
         this.desc = desc;
     }
 */
-
-
