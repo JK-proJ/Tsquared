@@ -6,41 +6,37 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:id="@+id/answerList"
     tools:context=".DetailActivity">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="0dp">
-        <!--<include
-            layout="@layout/question_view"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:text="Answers"
-            android:textColor="#94e5ff"
-            android:textSize="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
-
-    </RelativeLayout>
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/CardView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+             <TextView
+                android:id="@+id/textAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Answers"
+                android:textColor="#94e5ff"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/textAnswer">
+                <include layout="@layout/shimmer_placeholder1"/>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/answersRV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-    </androidx.cardview.widget.CardView>
-
 </LinearLayout>
