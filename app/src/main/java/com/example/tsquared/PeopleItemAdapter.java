@@ -2,6 +2,7 @@ package com.example.tsquared;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class PeopleItemAdapter extends RecyclerView.Adapter<PeopleItemAdapter.My
         holder.tv_college.setText(people.college);
         holder.tv_desc.setText(people.desc);
         holder.email = people.getEmail();
+        Log.e("Position Email", people.getEmail());
+
 
         //int[] androidColors = mcontext.getResources().getIntArray(R.array.androidcolors);
         //int randomColor     = androidColors[new Random().nextInt(androidColors.length)];
@@ -70,6 +73,10 @@ public class PeopleItemAdapter extends RecyclerView.Adapter<PeopleItemAdapter.My
             public void onClick(View v) {
                 holder.tv_button.setBackgroundColor(pressedColor);
                 holder.tv_button.setText("Following");
+                int userPosition = holder.getAdapterPosition();
+                String personToFollowEmail = mArrayList.get(userPosition).getEmail();
+                Log.e("Clicked Position", userPosition + " - " + personToFollowEmail);
+                PersonProfile.addToFollowing(personToFollowEmail);
             }
         });
     }

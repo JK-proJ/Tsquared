@@ -46,9 +46,9 @@ public class PersonProfile extends AppCompatActivity implements View.OnClickList
     private Toolbar toolbar;
     private String firstName;
 
-    RequestParams params;
-    AsyncHttpClient client;
-    String URL = "http://207.237.59.117:8080/TSquared/platform?todo=addToFollowing";
+    static RequestParams params;
+    static AsyncHttpClient client;
+    static String URL = "http://207.237.59.117:8080/TSquared/platform?todo=addToFollowing";
     String URL1 = "http://207.237.59.117:8080/TSquared/platform?todo=findUserQ";
     String URL2 = "http://207.237.59.117:8080/TSquared/platform?todo=findUserA";
     String URL3 = "http://207.237.59.117:8080/TSquared/platform?todo=findFollowing";
@@ -141,7 +141,7 @@ public class PersonProfile extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void addToFollowing(String profileEmail){
+    public static void addToFollowing(String profileEmail){
         params = new RequestParams();
         params.put("currentUserEmail", DrawerActivity.getEmail());
         params.put("userToFollow", profileEmail);
@@ -172,26 +172,7 @@ public class PersonProfile extends AppCompatActivity implements View.OnClickList
         client.get(URL1, params, new JsonHttpResponseHandler(){
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
-//                Log.e("Questions by", "user");
-//                ArrayList<QuestionItemModel> questionList = new ArrayList<>();
-//                for (int i = 0; i < response.length(); i++) {
-//                    try {
-//                        Log.e("Length", response.length()+"");
-//                        JSONObject object = response.getJSONObject(i);
-//                        QuestionItemModel question = QuestionItemModel.fromJson(object);
-//                        Drawable image = ContextCompat.getDrawable(requireNonNull(getApplicationContext()), R.drawable.blank_profile);
-//                        question.setProfileImage(image);
-//                        questionList.add(question);
-//                        Log.e("QUESTIONS", object.toString());
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                //super.onSuccess(statusCode, headers, response);
                 Log.e("QUESTIONS: ", response.toString());
                 ArrayList<QuestionItemModel> questionList = new ArrayList<>();
                 for (int i = 0; i < response.length(); i++) {
@@ -226,18 +207,19 @@ public class PersonProfile extends AppCompatActivity implements View.OnClickList
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                Log.e("ANSWERS: ", response.toString());
                 ArrayList<AnswerModel> answerListList = new ArrayList<>();
-                try {
-                    for (int i = 0; i < response.length(); i++){
+                for (int i = 0; i < response.length(); i++) {
+                    try {
                         JSONObject object  = response.getJSONObject(i);
                         AnswerModel answer = AnswerModel.fromJson(object);
                         Drawable image     = ContextCompat.getDrawable(Objects.requireNonNull(getApplication()), R.drawable.blank_profile);
                         answer.setProfileImage(image);
                         answerListList.add(answer);
-                        Log.e("ANSWERS", object.toString());
+                        //Log.e("ANSWERS", object.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
             @Override
@@ -260,6 +242,7 @@ public class PersonProfile extends AppCompatActivity implements View.OnClickList
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                Log.e("FOLLOWING: ", response.toString());
                 ArrayList<PeopleItemModel> peopleList = new ArrayList<>();
                 for (int i = 0; i < response.length(); i++) {
                     try {
@@ -294,6 +277,7 @@ public class PersonProfile extends AppCompatActivity implements View.OnClickList
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+                Log.e("FOLLOWERS: ", response.toString());
                 ArrayList<PeopleItemModel> peopleList = new ArrayList<>();
                 for (int i = 0; i < response.length(); i++) {
                     try {
